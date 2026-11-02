@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pratik Yüzde Hesaplama Aracı - İndirim, artış ve oran hesaplamalarını anında yapın.">
+    <title>Yüzde Hesaplama - PratikCep</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .calculator-card {
+            max-width: 550px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 15px;
+            outline: none;
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .calc-btn:hover {
+            opacity: 0.9;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .result-title {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+        .result-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+        <nav class="nav-links">
+            <a href="index.html#anasayfa">Ana Sayfa</a>
+            <a href="index.html#araclar">Araçlar</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="calculator-card">
+        <h2 style="margin-bottom: 10px;">％ Yüzde Hesaplama</h2>
+        <p style="color: var(--muted); font-size: 14px; margin-bottom: 25px;">
+            Sayının istediğin yüzdesini saniyeler içinde hesapla.
+        </p>
+
+        <div class="form-group">
+            <label for="sayi">Sayı</label>
+            <input type="number" id="sayi" class="form-control" placeholder="Örn: 500">
+        </div>
+
+        <div class="form-group">
+            <label for="yuzde">Yüzde Kaçı? (%)</label>
+            <input type="number" id="yuzde" class="form-control" placeholder="Örn: 20">
+        </div>
+
+        <button id="hesaplaBtn" class="calc-btn">Hesapla</button>
+
+        <div class="result-box" id="resultBox" style="display: none;">
+            <div class="result-title">Sonuç</div>
+            <div class="result-value" id="sonuc">0</div>
+        </div>
+    </div>
+</main>
+
+<script src="yuzde-hesaplama.js"></script>
+</body>
+</html>
