@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="QR Kod Oluşturucu - Metinlerinizi ve bağlantılarınızı ücretsiz olarak QR koda dönüştürün.">
+    <title>QR Kod Oluşturucu - PratikCep</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            resize: vertical;
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .calc-btn:hover {
+            opacity: 0.9;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 25px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        #qrcode {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .download-btn {
+            background: #37a56a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .download-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="index.html#araclar">Araçlar</a>
+            <a href="index.html#hakkimizda">Hakkımızda</a>
+        </nav>
+
+        <button id="themeToggle" class="theme-btn" aria-label="Temayı değiştir">
+            ☾
+        </button>
+    </div>
+</header>
+
+<main class="container">
+    <div class="tool-container">
+        <h2>QR Kod Oluşturucu</h2>
+        <p style="color: var(--muted); margin-top: 5px; margin-bottom: 25px; font-size: 14px;">Metin veya web sitesi bağlantısı girerek anında QR kod üretin.</p>
+        
+        <div class="form-group">
+            <label for="qrInput">Metin veya Bağlantı (URL)</label>
+            <textarea id="qrInput" rows="3" placeholder="Örn: https://arslanrecep.com.tr"></textarea>
+        </div>
+
+        <button class="calc-btn" id="generateQrBtn">QR Kod Oluştur</button>
+
+        <div class="result-box" id="qrResultBox" style="display: none;">
+            <div id="qrcode"></div>
+            <a id="downloadQrBtn" class="download-btn" download="qr-kod.png">QR Kodu İndir</a>
+        </div>
+    </div>
+</main>
+
+<!-- QR Code JS Kütüphanesi -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="script.js"></script>
+<script src="qr-kod.js"></script>
+</body>
+</html>
