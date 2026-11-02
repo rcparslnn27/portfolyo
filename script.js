@@ -2,11 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Dark Mode (Gece/Gündüz Modu) Mantığı
     const themeToggle = document.getElementById('themeToggle');
     
-    // Daha önceden seçilen temayı hafızadan yükle
+    // Tarayıcı hafızasında kaydedilmiş temayı kontrol et
     const savedTheme = localStorage.getItem('theme');
+    
     if (savedTheme === 'dark') {
         document.body.classList.add('dark');
         if (themeToggle) themeToggle.textContent = '☀️';
+    } else {
+        if (themeToggle) themeToggle.textContent = '☾';
     }
 
     if (themeToggle) {
@@ -17,13 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 themeToggle.textContent = '☀️';
                 localStorage.setItem('theme', 'dark');
             } else {
-                themeToggle.textContent = '🌙';
+                themeToggle.textContent = '☾';
                 localStorage.setItem('theme', 'light');
             }
         });
     }
 
-    // 2. Arama ve Kategori Filtreleme
+    // 2. Arama ve Kategori Filtreleme Mantığı
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
     const categoryBtns = document.querySelectorAll('.category-btn');
