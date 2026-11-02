@@ -23,7 +23,7 @@ body {
     font-family: 'Inter', sans-serif;
     background: var(--background);
     color: var(--text);
-    transition: .3s;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 body.dark {
@@ -49,6 +49,7 @@ body.dark {
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .navbar {
@@ -109,6 +110,7 @@ body.dark {
     color: var(--text);
     cursor: pointer;
     font-size: 20px;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 .hero {
@@ -163,6 +165,7 @@ body.dark {
     border: 1px solid var(--border);
     border-radius: 14px;
     box-shadow: 0 10px 35px rgba(40,60,120,.08);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .search-box > span {
@@ -267,7 +270,7 @@ body.dark {
     border-radius: 15px;
     text-decoration: none;
     color: var(--text);
-    transition: .25s;
+    transition: transform .25s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 .tool-card:hover {
@@ -324,6 +327,7 @@ body.dark {
     background: var(--surface);
     padding: 80px 0;
     text-align: center;
+    transition: background 0.3s ease;
 }
 
 .about-content {
@@ -338,6 +342,7 @@ body.dark {
 .footer {
     border-top: 1px solid var(--border);
     padding: 30px 0;
+    transition: border-color 0.3s ease;
 }
 
 .footer-content {
