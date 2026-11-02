@@ -114,8 +114,7 @@ body.dark {
 .hero {
     padding: 105px 0 90px;
     text-align: center;
-    background:
-        radial-gradient(ellipse at top, var(--primary-light), transparent 65%);
+    background: radial-gradient(ellipse at top, var(--primary-light), transparent 65%);
 }
 
 .hero-content {
