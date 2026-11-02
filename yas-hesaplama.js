@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const calculateBtn = document.getElementById('calculateAgeBtn');
-    
+
     if (calculateBtn) {
         calculateBtn.addEventListener('click', function() {
             const birthInput = document.getElementById('birthdate').value;
