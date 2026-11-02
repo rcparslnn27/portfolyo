@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yaş Hesaplama Aracı - Kaç yaşında olduğunuzu, yaşadığınız gün sayısını ve doğum gününüze kaç gün kaldığını öğrenin.">
+    <title>Yaş Hesaplama - PratikCep</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+        }
+        .calc-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .calc-btn:hover {
+            opacity: 0.9;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: none;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-item span:first-child {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .result-item span:last-child {
+            font-weight: 700;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="index.html#araclar">Araçlar</a>
+            <a href="index.html#hakkimizda">Hakkımızda</a>
+        </nav>
+
+        <button id="themeToggle" class="theme-btn" aria-label="Temayı değiştir">
+            ☾
+        </button>
+    </div>
+</header>
+
+<main class="container">
+    <div class="tool-container">
+        <h2>Yaş Hesaplama</h2>
+        <p style="color: var(--muted); margin-top: 5px; margin-bottom: 25px; font-size: 14px;">Doğum tarihinizi girerek detaylı yaş istatistiklerinizi öğrenin.</p>
+        
+        <div class="form-group">
+            <label for="birthdate">Doğum Tarihiniz</label>
+            <input type="date" id="birthdate">
+        </div>
+
+        <button class="calc-btn" id="calculateAgeBtn">Hesapla</button>
+
+        <div class="result-box" id="ageResultBox">
+            <div class="result-item">
+                <span>Tam Yaşınız:</span>
+                <span id="resAge">-</span>
+            </div>
+            <div class="result-item">
+                <span>Toplam Yaşanan Gün:</span>
+                <span id="resTotalDays">-</span>
+            </div>
+            <div class="result-item">
+                <span>Sonraki Doğum Gününe:</span>
+                <span id="resNextBirthday">-</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+    document.getElementById('calculateAgeBtn').addEventListener('click', function() {
+        const birthInput = document.getElementById('birthdate').value;
+        if (!birthInput) {
+            alert('Lütfen geçerli bir doğum tarihi seçin.');
+            return;
+        }
+
+        const birthDate = new Date(birthInput);
+        const today = new Date();
+
+        if (birthDate > today) {
+            alert('Doğum tarihi bugünden ileride bir tarih olamaz.');
+            return;
+        }
+
+        // Yaş Hesaplama (Yıl, Ay, Gün)
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        let days = today.getDate() - birthDate.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // Toplam Gün Hesaplama
+        const diffTime = Math.abs(today - birthDate);
+        const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        // Sonraki Doğum Günü Hesaplama
+        let nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+        if (today > nextBirthday) {
+            nextBirthday.setFullYear(today.getFullYear() + 1);
+        }
+        const diffNext = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+
+        // Ekrana Yazdırma
+        document.getElementById('resAge').textContent = `${years} Yıl, ${months} Ay, ${days} Gün`;
+        document.getElementById('resTotalDays').textContent = `${totalDays.toLocaleString('tr-TR')} Gün`;
+        document.getElementById('resNextBirthday').textContent = `${diffNext} Gün kaldı`;
+
+        document.getElementById('ageResultBox').style.display = 'block';
+    });
+</script>
+</body>
+</html>
