@@ -42,60 +42,59 @@ body.dark {
    ARKA PLAN BİLGİ/MATEMATİK VİBE EFEKTİ
    ========================================= */
 .bg-symbols {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.25;
+    opacity: 0.35;
 }
 
 body.dark .bg-symbols {
-    opacity: 0.15;
+    opacity: 0.25;
 }
 
 .bg-symbols span {
     position: absolute;
     display: block;
-    list-style: none;
-    font-family: monospace;
-    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 800;
     color: var(--primary);
-    font-size: 18px;
-    bottom: -150px;
-    animation: floatUp 15s linear infinite;
+    font-size: 20px;
+    bottom: -100px;
+    animation: floatUp 12s linear infinite;
+    user-select: none;
 }
 
-/* Rastgele konumlar ve animasyon süreleri */
-.bg-symbols span:nth-child(1) { left: 10%; animation-duration: 12s; font-size: 20px; }
-.bg-symbols span:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; font-size: 15px; }
-.bg-symbols span:nth-child(3) { left: 35%; animation-duration: 14s; animation-delay: 4s; font-size: 22px; }
-.bg-symbols span:nth-child(4) { left: 50%; animation-duration: 16s; animation-delay: 1s; font-size: 16px; }
-.bg-symbols span:nth-child(5) { left: 65%; animation-duration: 20s; animation-delay: 3s; font-size: 24px; }
-.bg-symbols span:nth-child(6) { left: 80%; animation-duration: 13s; animation-delay: 5s; font-size: 19px; }
-.bg-symbols span:nth-child(7) { left: 15%; animation-duration: 17s; animation-delay: 6s; font-size: 14px; }
-.bg-symbols span:nth-child(8) { left: 45%; animation-duration: 15s; animation-delay: 2.5s; font-size: 21px; }
-.bg-symbols span:nth-child(9) { left: 75%; animation-duration: 19s; animation-delay: 1.5s; font-size: 17px; }
-.bg-symbols span:nth-child(10) { left: 90%; animation-duration: 14s; animation-delay: 4.5s; font-size: 23px; }
-.bg-symbols span:nth-child(11) { left: 28%; animation-duration: 22s; animation-delay: 3.5s; font-size: 16px; }
-.bg-symbols span:nth-child(12) { left: 60%; animation-duration: 135s; animation-delay: 0.5s; font-size: 20px; }
+.bg-symbols span:nth-child(1) { left: 5%; animation-duration: 10s; animation-delay: 0s; font-size: 22px; }
+.bg-symbols span:nth-child(2) { left: 18%; animation-duration: 14s; animation-delay: 2s; font-size: 16px; }
+.bg-symbols span:nth-child(3) { left: 30%; animation-duration: 11s; animation-delay: 4s; font-size: 24px; }
+.bg-symbols span:nth-child(4) { left: 42%; animation-duration: 15s; animation-delay: 1s; font-size: 18px; }
+.bg-symbols span:nth-child(5) { left: 55%; animation-duration: 13s; animation-delay: 3s; font-size: 26px; }
+.bg-symbols span:nth-child(6) { left: 68%; animation-duration: 12s; animation-delay: 5s; font-size: 20px; }
+.bg-symbols span:nth-child(7) { left: 78%; animation-duration: 16s; animation-delay: 2s; font-size: 17px; }
+.bg-symbols span:nth-child(8) { left: 88%; animation-duration: 11s; animation-delay: 4s; font-size: 23px; }
+.bg-symbols span:nth-child(9) { left: 12%; animation-duration: 17s; animation-delay: 3s; font-size: 19px; }
+.bg-symbols span:nth-child(10) { left: 48%; animation-duration: 13s; animation-delay: 6s; font-size: 21px; }
+.bg-symbols span:nth-child(11) { left: 62%; animation-duration: 18s; animation-delay: 1s; font-size: 18px; }
+.bg-symbols span:nth-child(12) { left: 93%; animation-duration: 14s; animation-delay: 0s; font-size: 22px; }
 
 @keyframes floatUp {
     0% {
         transform: translateY(0) rotate(0deg);
         opacity: 0;
     }
-    10% {
+    15% {
         opacity: 1;
     }
-    90% {
+    85% {
         opacity: 1;
     }
     100% {
-        transform: translateY(-110vh) rotate(360deg);
+        transform: translateY(-115vh) rotate(360deg);
         opacity: 0;
     }
 }
@@ -108,7 +107,7 @@ body.dark .bg-symbols {
     max-width: 1150px;
     margin: auto;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 }
 
 /* Cam Efekti (Glassmorphism Header) */
