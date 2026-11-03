@@ -42,14 +42,21 @@ body.dark {
     margin: auto;
 }
 
+/* 1. Cam Efekti (Glassmorphism Header) */
 .header {
     height: 75px;
     border-bottom: 1px solid var(--border);
-    background: var(--background);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
     z-index: 100;
     transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark .header {
+    background: rgba(16, 21, 34, 0.85);
 }
 
 .navbar {
@@ -263,6 +270,7 @@ body.dark {
     gap: 20px;
 }
 
+/* 2. Mikro Etkileşimler (Tıklama ve Hover Efektleri) */
 .tool-card {
     padding: 25px;
     border: 1px solid var(--border);
@@ -270,7 +278,10 @@ body.dark {
     border-radius: 15px;
     text-decoration: none;
     color: var(--text);
-    transition: transform .25s ease, background 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease, 
+                background 0.3s ease;
 }
 
 .tool-card:hover {
@@ -356,6 +367,48 @@ body.dark {
     font-size: 12px;
 }
 
+/* 3. Özel Kaydırma Çubuğu (Custom Scrollbar) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+}
+
+/* 4. Şık Animasyonlu Sayfa Geçişleri (Fade-in) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tool-container {
+    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.calc-btn:active, 
+.category-btn:active, 
+.tool-card:active,
+.copy-btn:active,
+.download-btn:active {
+    transform: scale(0.98);
+}
+
 @media (max-width: 768px) {
     .nav-links {
         display: none;
@@ -407,71 +460,4 @@ body.dark {
     .search-box button {
         padding: 12px;
     }
-}
-
-/* 1. Cam Efekti (Glassmorphism Header) */
-.header {
-    height: 75px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-body.dark .header {
-    background: rgba(16, 21, 34, 0.85);
-}
-
-/* 2. Mikro Etkileşimler (Tıklama ve Hover Efektleri) */
-.calc-btn:active, 
-.category-btn:active, 
-.tool-card:active,
-.copy-btn:active,
-.download-btn:active {
-    transform: scale(0.98);
-}
-
-.tool-card {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.3s ease, 
-                border-color 0.3s ease, 
-                background 0.3s ease;
-}
-
-/* 3. Özel Kaydırma Çubuğu (Custom Scrollbar) */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--surface);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--muted);
-}
-
-/* 4. Şık Animasyonlu Sayfa Geçişleri (Fade-in) */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.tool-container {
-    animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
