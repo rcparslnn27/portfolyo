@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkOutput = document.getElementById('linkOutput');
     const copyBtn = document.getElementById('copyLinkBtn');
 
-    // ImgBB ücretsiz test/hizmet API anahtarı (Kendi projelerin için ücretsiz alabilirsin)
-    // Bu genel anahtar hızlıca test etmeni sağlar:
     const IMGBB_API_KEY = 'd17208d2940608fa8fa4408df51cc4b6'; 
 
     if (dropZone && fileInput) {
@@ -42,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function uploadToCloud(file) {
-        // Kullanıcıya yükleniyor hissi verelim
         linkOutput.value = "Yükleniyor, lütfen bekleyin...";
         previewContainer.style.display = 'block';
 
@@ -55,19 +52,21 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                const shortUrl = data.data.url; // Kısa ve güvenli görsel linki
+            console.log('API Yanıtı:', data); // Konsoldan yanıtı görebilmek için
+            if (data && data.success) {
+                const shortUrl = data.data.url;
                 imagePreview.src = shortUrl;
                 linkOutput.value = shortUrl;
             } else {
-                alert('Görsel yüklenirken bir hata oluştu.');
-                linkOutput.value = "Yükleme başarısız.";
+                const errorMsg = data.error ? data.error.message : 'Bilinmeyen hata';
+                alert('Yükleme hatası: ' + errorMsg);
+                linkOutput.value = "Yükleme başarısız: "  + errorMsg;
             }
         })
         .catch(error => {
-            console.error('Hata:', error);
-            alert('Bağlantı hatası oluştu.');
-            linkOutput.value = "Hata oluştu.";
+            console.error('Fetch Hatası:', error);
+            alert('Bağlantı hatası oluştu. Konsolu kontrol edin.');
+            linkOutput.value = "Ağ hatası oluştu.";
         });
     }
 
