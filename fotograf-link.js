@@ -6,17 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkOutput = document.getElementById('linkOutput');
     const copyBtn = document.getElementById('copyLinkBtn');
 
+    // ImgBB ücretsiz test/hizmet API anahtarı (Kendi projelerin için ücretsiz alabilirsin)
+    // Bu genel anahtar hızlıca test etmeni sağlar:
+    const IMGBB_API_KEY = 'd17208d2940608fa8fa4408df51cc4b6'; 
+
     if (dropZone && fileInput) {
         dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                processImage(file);
+                uploadToCloud(file);
             }
         });
 
-        // Sürükle-bırak desteği
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
             dropZone.style.borderColor = 'var(--primary)';
@@ -31,27 +34,46 @@ document.addEventListener('DOMContentLoaded', () => {
             dropZone.style.borderColor = 'var(--border)';
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
-                processImage(file);
+                uploadToCloud(file);
             } else {
                 alert('Lütfen geçerli bir görsel dosyası yükleyin.');
             }
         });
     }
 
-    function processImage(file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64Url = e.target.result;
-            imagePreview.src = base64Url;
-            linkOutput.value = base64Url;
-            previewContainer.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+    function uploadToCloud(file) {
+        // Kullanıcıya yükleniyor hissi verelim
+        linkOutput.value = "Yükleniyor, lütfen bekleyin...";
+        previewContainer.style.display = 'block';
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const shortUrl = data.data.url; // Kısa ve güvenli görsel linki
+                imagePreview.src = shortUrl;
+                linkOutput.value = shortUrl;
+            } else {
+                alert('Görsel yüklenirken bir hata oluştu.');
+                linkOutput.value = "Yükleme başarısız.";
+            }
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+            alert('Bağlantı hatası oluştu.');
+            linkOutput.value = "Hata oluştu.";
+        });
     }
 
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
-            if (!linkOutput.value) return;
+            if (!linkOutput.value || linkOutput.value.includes('Yükleniyor')) return;
             navigator.clipboard.writeText(linkOutput.value).then(() => {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = 'Kopyalandı!';
