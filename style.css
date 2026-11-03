@@ -24,6 +24,8 @@ body {
     background: var(--background);
     color: var(--text);
     transition: background 0.3s ease, color 0.3s ease;
+    position: relative;
+    overflow-x: hidden;
 }
 
 body.dark {
@@ -36,13 +38,80 @@ body.dark {
     --primary-light: #202d4a;
 }
 
+/* =========================================
+   ARKA PLAN BİLGİ/MATEMATİK VİBE EFEKTİ
+   ========================================= */
+.bg-symbols {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.25;
+}
+
+body.dark .bg-symbols {
+    opacity: 0.15;
+}
+
+.bg-symbols span {
+    position: absolute;
+    display: block;
+    list-style: none;
+    font-family: monospace;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 18px;
+    bottom: -150px;
+    animation: floatUp 15s linear infinite;
+}
+
+/* Rastgele konumlar ve animasyon süreleri */
+.bg-symbols span:nth-child(1) { left: 10%; animation-duration: 12s; font-size: 20px; }
+.bg-symbols span:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; font-size: 15px; }
+.bg-symbols span:nth-child(3) { left: 35%; animation-duration: 14s; animation-delay: 4s; font-size: 22px; }
+.bg-symbols span:nth-child(4) { left: 50%; animation-duration: 16s; animation-delay: 1s; font-size: 16px; }
+.bg-symbols span:nth-child(5) { left: 65%; animation-duration: 20s; animation-delay: 3s; font-size: 24px; }
+.bg-symbols span:nth-child(6) { left: 80%; animation-duration: 13s; animation-delay: 5s; font-size: 19px; }
+.bg-symbols span:nth-child(7) { left: 15%; animation-duration: 17s; animation-delay: 6s; font-size: 14px; }
+.bg-symbols span:nth-child(8) { left: 45%; animation-duration: 15s; animation-delay: 2.5s; font-size: 21px; }
+.bg-symbols span:nth-child(9) { left: 75%; animation-duration: 19s; animation-delay: 1.5s; font-size: 17px; }
+.bg-symbols span:nth-child(10) { left: 90%; animation-duration: 14s; animation-delay: 4.5s; font-size: 23px; }
+.bg-symbols span:nth-child(11) { left: 28%; animation-duration: 22s; animation-delay: 3.5s; font-size: 16px; }
+.bg-symbols span:nth-child(12) { left: 60%; animation-duration: 135s; animation-delay: 0.5s; font-size: 20px; }
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   GENEL YERLEŞİM VE BİLEŞENLER
+   ========================================= */
 .container {
     width: 90%;
     max-width: 1150px;
     margin: auto;
+    position: relative;
+    z-index: 1;
 }
 
-/* 1. Cam Efekti (Glassmorphism Header) */
+/* Cam Efekti (Glassmorphism Header) */
 .header {
     height: 75px;
     border-bottom: 1px solid var(--border);
@@ -124,10 +193,13 @@ body.dark .header {
     padding: 105px 0 90px;
     text-align: center;
     background: radial-gradient(ellipse at top, var(--primary-light), transparent 65%);
+    position: relative;
+    z-index: 1;
 }
 
 .hero-content {
     max-width: 800px;
+    margin: auto;
 }
 
 .hero-badge {
@@ -213,6 +285,8 @@ body.dark .header {
 .tools-section {
     padding-top: 80px;
     padding-bottom: 100px;
+    position: relative;
+    z-index: 1;
 }
 
 .section-label {
@@ -270,7 +344,7 @@ body.dark .header {
     gap: 20px;
 }
 
-/* 2. Mikro Etkileşimler (Tıklama ve Hover Efektleri) */
+/* Mikro Etkileşimler (Tıklama ve Hover Efektleri) */
 .tool-card {
     padding: 25px;
     border: 1px solid var(--border);
@@ -339,10 +413,13 @@ body.dark .header {
     padding: 80px 0;
     text-align: center;
     transition: background 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .about-content {
     max-width: 650px;
+    margin: auto;
 }
 
 .about-content p {
@@ -354,6 +431,8 @@ body.dark .header {
     border-top: 1px solid var(--border);
     padding: 30px 0;
     transition: border-color 0.3s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-content {
@@ -367,7 +446,7 @@ body.dark .header {
     font-size: 12px;
 }
 
-/* 3. Özel Kaydırma Çubuğu (Custom Scrollbar) */
+/* Özel Kaydırma Çubuğu (Custom Scrollbar) */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -385,7 +464,7 @@ body.dark .header {
     background: var(--muted);
 }
 
-/* 4. Şık Animasyonlu Sayfa Geçişleri (Fade-in) */
+/* Şık Animasyonlu Sayfa Geçişleri (Fade-in) */
 @keyframes fadeIn {
     from {
         opacity: 0;
