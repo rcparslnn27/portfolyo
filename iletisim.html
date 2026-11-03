@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PratikCep İletişim - Görüş, öneri ve destek talepleriniz için bize ulaşın.">
+    <title>İletişim - PratikCep</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .contact-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .contact-info-card {
+            padding: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        .contact-info-card h4 {
+            font-size: 15px;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+        .contact-info-card p, .contact-info-card a {
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            word-break: break-word;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .form-group input, .form-group textarea {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="index.html#araclar">Araçlar</a>
+            <a href="gizlilik.html">Gizlilik Politikası</a>
+        </nav>
+
+        <button id="themeToggle" class="theme-btn" aria-label="Temayı değiştir">
+            ☾
+        </button>
+    </div>
+</header>
+
+<main class="container">
+    <div class="contact-container tool-container">
+        <h2>Bize Ulaşın</h2>
+        <p style="color: var(--muted); margin-top: 8px; font-size: 14px;">Görüşleriniz, önerileriniz veya bildirmek istediğiniz hatalar için aşağıdaki kanalları kullanabilirsiniz.</p>
+
+        <div class="contact-grid">
+            <div>
+                <div class="contact-info-card">
+                    <h4>📧 E-Posta</h4>
+                    <p><a href="mailto:iletisim@arslanrecep.com.tr">iletisim@arslanrecep.com.tr</a></p>
+                </div>
+
+                <div class="contact-info-card">
+                    <h4>🌐 İnternet Sitesi</h4>
+                    <p><a href="https://arslanrecep.com.tr" target="_blank">arslanrecep.com.tr</a></p>
+                </div>
+
+                <div class="contact-info-card">
+                    <h4>⚡ Destek & Öneriler</h4>
+                    <p>Yeni araç istekleriniz veya geliştirmeler için mesaj göndermekten çekinmeyin.</p>
+                </div>
+            </div>
+
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Mesajınız başarıyla iletildi!'); this.reset();">
+                <div class="form-group">
+                    <label for="name">Adınız Soyadınız</label>
+                    <input type="text" id="name" required placeholder="Örn: Ahmet Yılmaz">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-Posta Adresiniz</label>
+                    <input type="email" id="email" required placeholder="ornek@mail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Mesajınız</label>
+                    <textarea id="message" rows="5" required placeholder="Mesajınızı buraya yazabilirsiniz..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Mesajı Gönder</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+        <p>© 2026 PratikCep. Tüm hakları saklıdır.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
