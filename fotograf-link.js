@@ -6,15 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkOutput = document.getElementById('linkOutput');
     const copyBtn = document.getElementById('copyLinkBtn');
 
-    const IMGBB_API_KEY = 'd17208d2940608fa8fa4408df51cc4b6'; 
-
     if (dropZone && fileInput) {
         dropZone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                uploadToCloud(file);
+                processImage(file);
             }
         });
 
@@ -32,47 +30,58 @@ document.addEventListener('DOMContentLoaded', () => {
             dropZone.style.borderColor = 'var(--border)';
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
-                uploadToCloud(file);
+                processImage(file);
             } else {
                 alert('Lütfen geçerli bir görsel dosyası yükleyin.');
             }
         });
     }
 
-    function uploadToCloud(file) {
-        linkOutput.value = "Yükleniyor, lütfen bekleyin...";
+    function processImage(file) {
+        linkOutput.value = "İşleniyor...";
         previewContainer.style.display = 'block';
 
-        const formData = new FormData();
-        formData.append('image', file);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = function() {
+                // Görseli optimize etmek için canvas kullanıyoruz (boyutu küçültür)
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                const MAX_HEIGHT = 800;
+                let width = img.width;
+                let height = img.height;
 
-        fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('API Yanıtı:', data); // Konsoldan yanıtı görebilmek için
-            if (data && data.success) {
-                const shortUrl = data.data.url;
-                imagePreview.src = shortUrl;
-                linkOutput.value = shortUrl;
-            } else {
-                const errorMsg = data.error ? data.error.message : 'Bilinmeyen hata';
-                alert('Yükleme hatası: ' + errorMsg);
-                linkOutput.value = "Yükleme başarısız: "  + errorMsg;
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Temiz ve sıkıştırılmış veri bağlantısı oluşturur
+                const optimizedUrl = canvas.toDataURL('image/jpeg', 0.8);
+                imagePreview.src = optimizedUrl;
+                linkOutput.value = optimizedUrl;
             }
-        })
-        .catch(error => {
-            console.error('Fetch Hatası:', error);
-            alert('Bağlantı hatası oluştu. Konsolu kontrol edin.');
-            linkOutput.value = "Ağ hatası oluştu.";
-        });
+        };
+        reader.readAsDataURL(file);
     }
 
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
-            if (!linkOutput.value || linkOutput.value.includes('Yükleniyor')) return;
+            if (!linkOutput.value || linkOutput.value.includes('İşleniyor')) return;
             navigator.clipboard.writeText(linkOutput.value).then(() => {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = 'Kopyalandı!';
