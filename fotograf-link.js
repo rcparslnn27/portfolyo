@@ -34,7 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
     el.durum.textContent = dosya.name;
   }
 
-  el.alan.addEventListener("click", () => el.dosya.click());
+  // Alan <label> ise tarayıcı dosya penceresini kendisi açar.
+  // Değilse (div vb.) elle açtırıyoruz.
+  if (el.alan.tagName !== "LABEL") {
+    el.alan.addEventListener("click", () => el.dosya.click());
+  }
+
   el.dosya.addEventListener("change", () => dosyaSec(el.dosya.files[0]));
 
   el.alan.addEventListener("dragover", (e) => {
@@ -59,39 +64,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
     el.yukle.disabled = true;
     el.durum.textContent = "Yükleniyor...";
-
-    const form = new FormData();
-    form.append("image", secilenDosya);
-
-    try {
-      const res = await fetch("https://api.imgbb.com/1/upload?key=" + API_KEY, {
-        method: "POST",
-        body: form,
-      });
-      const veri = await res.json();
-
-      if (!veri.success) {
-        throw new Error((veri.error && veri.error.message) || "Yükleme başarısız");
-      }
-
-      el.link.value = veri.data.url;
-      el.sonuc.style.display = "block";
-      el.durum.textContent = "Hazır! ✅";
-    } catch (err) {
-      el.durum.textContent = "Hata: " + err.message;
-    } finally {
-      el.yukle.disabled = false;
-    }
-  });
-
-  el.kopyala.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(el.link.value);
-    } catch (e) {
-      el.link.select();
-      document.execCommand("copy");
-    }
-    el.kopyala.textContent = "Kopyalandı ✓";
-    setTimeout(() => (el.kopyala.textContent = "Kopyala"), 1500);
-  });
-});
