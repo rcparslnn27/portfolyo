@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const hedefEl = document.getElementById("hedef");
   const degistirBtn = document.getElementById("degistir");
   const sonucDegerEl = document.getElementById("sonucDeger");
-  const kurBilgisiEl = document.getElementById("kurBilgisi");
+  const alisKuruEl = document.getElementById("alisKuru");
+  const satisKuruEl = document.getElementById("satisKuru");
   const durumEl = document.getElementById("durum");
 
   let kurlar = {};
@@ -35,15 +36,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isNaN(miktar) || miktar <= 0) {
       sonucDegerEl.textContent = "0.00 " + hedef;
+      alisKuruEl.textContent = "-";
+      satisKuruEl.textContent = "-";
       return;
     }
 
     if (kurlar[hedef]) {
-      const oran = kurlar[hedef];
-      const sonuc = miktar * oran;
+      const bazOran = kurlar[hedef];
+      
+      // Piyasaya benzer gerçekçi bir alış/satış makası (%0.2 spread) simülasyonu
+      const alisOrani = bazOran * 0.999; 
+      const satisOrani = bazOran * 1.001;
+
+      const sonuc = miktar * bazOran;
 
       sonucDegerEl.textContent = sonuc.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " " + hedef;
-      kurBilgisiEl.textContent = `1 ${kaynak} = ${oran.toFixed(4)} ${hedef}`;
+      alisKuruEl.textContent = alisOrani.toFixed(4) + " " + hedef;
+      satisKuruEl.textContent = satisOrani.toFixed(4) + " " + hedef;
     }
   }
 
@@ -62,6 +71,5 @@ document.addEventListener("DOMContentLoaded", () => {
     kurlariGetir(kaynakEl.value);
   });
 
-  // Sayfa açıldığında ilk baz para birimine göre kurları çek
   kurlariGetir(kaynakEl.value);
 });
