@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* Dark Mode ve Select Uyumluluğu */
     select option {
       background-color: var(--card-bg, #ffffff);
       color: var(--text-main, #333333);
@@ -20,15 +21,16 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 12px;
+      margin-top: 16px;
     }
     .kur-kutusu {
-      background: var(--bg-main, #f1f3f5);
-      padding: 10px;
-      border-radius: 8px;
+      background: var(--bg-secondary, #f1f3f5);
+      padding: 12px;
+      border-radius: 10px;
       font-size: 0.85rem;
-      color: var(--muted, #555);
+      color: var(--text-main, #333);
       border: 1px solid var(--border-color, #e2e8f0);
+      text-align: center;
     }
   </style>
 </head>
@@ -91,17 +93,18 @@
       </div>
 
       <div class="sonuc-kutusu" style="background: var(--bg-secondary, #f8f9fa); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color, #eee);">
+        <div style="font-size: 0.85rem; color: var(--muted, #666); margin-bottom: 4px;">Çeviri Sonucu</div>
         <div class="sonuc-deger" id="sonucDeger" style="font-size: 1.8rem; font-weight: bold; color: var(--primary, #2563eb);">-</div>
         
         <!-- Alış ve Satış Fiyatları Alanı -->
         <div class="kur-detay-grid">
           <div class="kur-kutusu">
-            <div style="font-size: 0.75rem; font-weight: 600; opacity: 0.8;">ALIŞ KURU</div>
-            <div id="alisKuru" style="font-weight: bold; margin-top: 2px; color: var(--text-main, #333);">-</div>
+            <div style="font-size: 0.75rem; font-weight: 600; color: var(--muted, #666);">ALIŞ KURU</div>
+            <div id="alisKuru" style="font-weight: bold; margin-top: 4px; color: var(--text-main, #333);">-</div>
           </div>
           <div class="kur-kutusu">
-            <div style="font-size: 0.75rem; font-weight: 600; opacity: 0.8;">SATIŞ KURU</div>
-            <div id="satisKuru" style="font-weight: bold; margin-top: 2px; color: var(--text-main, #333);">-</div>
+            <div style="font-size: 0.75rem; font-weight: 600; color: var(--muted, #666);">SATIŞ KURU</div>
+            <div id="satisKuru" style="font-weight: bold; margin-top: 4px; color: var(--text-main, #333);">-</div>
           </div>
         </div>
       </div>
