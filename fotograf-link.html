@@ -1,129 +1,86 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fotoğraf Linkleyici - Görsellerinizi yükleyin ve anında paylaşılabilir bağlantı oluşturun.">
-    <title>Fotoğraf Linkleyici - PratikCep</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        .tool-container {
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 30px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-        }
-        .upload-dropzone {
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 40px 20px;
-            text-align: center;
-            background: var(--surface);
-            cursor: pointer;
-            transition: border-color 0.2s;
-            margin-bottom: 20px;
-        }
-        .upload-dropzone:hover {
-            border-color: var(--primary);
-        }
-        .upload-dropzone p {
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-        .preview-container {
-            margin-top: 20px;
-            display: none;
-            text-align: center;
-        }
-        .preview-img {
-            max-width: 100%;
-            max-height: 250px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            margin-bottom: 15px;
-        }
-        .link-box {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .link-box input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            background: var(--surface);
-            color: var(--text);
-            font-family: monospace;
-            font-size: 14px;
-            outline: none;
-        }
-        .copy-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .copy-btn:hover {
-            opacity: 0.9;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fotoğraf Linkleyici</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f1117;
+      color: #e6e6e6;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .kutu {
+      width: 92%;
+      max-width: 460px;
+      background: #1a1d27;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    h1 { margin-top: 0; font-size: 1.4rem; }
+    #alan {
+      border: 2px dashed #4a5070;
+      border-radius: 12px;
+      padding: 32px 12px;
+      cursor: pointer;
+      transition: .2s;
+    }
+    #alan.uzerinde { border-color: #6c8cff; background: #20243a; }
+    #onizleme {
+      max-width: 100%;
+      max-height: 220px;
+      margin-top: 16px;
+      border-radius: 10px;
+      display: none;
+    }
+    button {
+      margin-top: 14px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #6c8cff;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    #sonuc { margin-top: 16px; display: none; }
+    #link {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #333955;
+      background: #0f1117;
+      color: #e6e6e6;
+    }
+    #durum { margin-top: 10px; font-size: .9rem; color: #9aa3c7; }
+  </style>
 </head>
 <body>
+  <div class="kutu">
+    <h1>📷 Fotoğraf Linkleyici</h1>
 
-<header class="header">
-    <div class="container navbar">
-        <a href="index.html" class="logo">
-            <span class="logo-icon">P</span>
-            Pratik<span>Cep</span>
-        </a>
+    <div id="alan">Fotoğrafı buraya sürükle veya tıkla</div>
+    <input type="file" id="dosya" accept="image/*" hidden>
 
-        <nav class="nav-links">
-            <a href="index.html">Ana Sayfa</a>
-            <a href="index.html#araclar">Araçlar</a>
-            <a href="index.html#hakkimizda">Hakkımızda</a>
-        </nav>
+    <img id="onizleme" alt="Önizleme">
+    <br>
+    <button id="yukle" disabled>Link oluştur</button>
+    <div id="durum"></div>
 
-        <button id="themeToggle" class="theme-btn" aria-label="Temayı değiştir">
-            ☾
-        </button>
+    <div id="sonuc">
+      <input id="link" readonly>
+      <button id="kopyala">Kopyala</button>
     </div>
-</header>
+  </div>
 
-<main class="container">
-    <div class="tool-container">
-        <h2>Fotoğraf Linkleyici</h2>
-        <p style="color: var(--muted); margin-top: 5px; margin-bottom: 25px; font-size: 14px;">Görselini yükle, anında bağlantı adresini (URL) oluştur ve kopyala.</p>
-        
-        <input type="file" id="fileInput" accept="image/*" style="display: none;">
-        
-        <div class="upload-dropzone" id="dropZone">
-            <span style="font-size: 32px;">📁</span>
-            <p style="font-weight: 600; color: var(--text);">Fotoğraf seçmek için tıkla veya sürükleyip bırak</p>
-            <p>PNG, JPG, WEBP veya GIF (Maks. Hızlı Önizleme)</p>
-        </div>
-
-        <div class="preview-container" id="previewContainer">
-            <img id="imagePreview" class="preview-img" alt="Önizleme">
-            <p style="font-size: 13px; color: var(--muted); margin-bottom: 5px;">Oluşturulan Görsel Bağlantısı:</p>
-            <div class="link-box">
-                <input type="text" id="linkOutput" readonly>
-                <button class="copy-btn" id="copyLinkBtn">Kopyala</button>
-            </div>
-        </div>
-    </div>
-</main>
-
-<script src="script.js"></script>
-<script src="fotograf-link.js"></script>
+  <script src="foto-linkleyici.js"></script>
 </body>
 </html>
