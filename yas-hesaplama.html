@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Yaş Hesaplama Aracı - Kaç yaşında olduğunuzu, yaşadığınız gün sayısını ve doğum gününüze kaç gün kaldığını öğrenin.">
     <title>Yaş Hesaplama - PratikCep</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         .tool-container {
             max-width: 600px;
@@ -16,6 +17,12 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
+        }
+        .tool-desc {
+            color: var(--muted);
+            margin-top: 5px;
+            margin-bottom: 25px;
+            font-size: 14px;
         }
         .form-group {
             margin-bottom: 20px;
@@ -33,9 +40,20 @@
             border-radius: 10px;
             background: var(--surface);
             color: var(--text);
+            color-scheme: light dark;
             font-family: inherit;
             font-size: 15px;
             outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.25);
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 14px;
+            margin: -8px 0 16px;
+            min-height: 18px;
         }
         .calc-btn {
             width: 100%;
@@ -63,6 +81,7 @@
         .result-item {
             display: flex;
             justify-content: space-between;
+            gap: 12px;
             padding: 10px 0;
             border-bottom: 1px dashed var(--border);
         }
@@ -76,6 +95,7 @@
         .result-item span:last-child {
             font-weight: 700;
             color: var(--primary);
+            text-align: right;
         }
     </style>
 </head>
@@ -94,7 +114,7 @@
             <a href="index.html#hakkimizda">Hakkımızda</a>
         </nav>
 
-        <button id="themeToggle" class="theme-btn" aria-label="Temayı değiştir">
+        <button id="themeToggle" class="theme-btn" type="button" aria-label="Temayı değiştir">
             ☾
         </button>
     </div>
@@ -103,16 +123,18 @@
 <main class="container">
     <div class="tool-container">
         <h2>Yaş Hesaplama</h2>
-        <p style="color: var(--muted); margin-top: 5px; margin-bottom: 25px; font-size: 14px;">Doğum tarihinizi girerek detaylı yaş istatistiklerinizi öğrenin.</p>
-        
+        <p class="tool-desc">Doğum tarihinizi girerek detaylı yaş istatistiklerinizi öğrenin.</p>
+
         <div class="form-group">
             <label for="birthdate">Doğum Tarihiniz</label>
             <input type="date" id="birthdate">
         </div>
 
-        <button class="calc-btn" id="calculateAgeBtn">Hesapla</button>
+        <p class="error-msg" id="ageError" role="alert"></p>
 
-        <div class="result-box" id="ageResultBox">
+        <button class="calc-btn" id="calculateAgeBtn" type="button">Hesapla</button>
+
+        <div class="result-box" id="ageResultBox" aria-live="polite">
             <div class="result-item">
                 <span>Tam Yaşınız:</span>
                 <span id="resAge">-</span>
@@ -129,7 +151,7 @@
     </div>
 </main>
 
-<script src="script.js"></script>
-<script src="yas-hesaplama.js"></script>
+<script src="script.js" defer></script>
+<script src="yas-hesaplama.js" defer></script>
 </body>
 </html>
