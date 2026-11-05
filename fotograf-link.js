@@ -12,10 +12,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (eksik.length) {
     console.error("HTML'de bu ID'ler eksik:", eksik.join(", "));
+    alert("HTML'de bu ID'ler eksik: " + eksik.join(", "));
     return;
   }
 
   let secilenDosya = null;
+  let yukleniyor = false;
+
+  async function yukle() {
+    if (!secilenDosya || yukleniyor) return;
+
+    yukleniyor = true;
+    el.yukle.disabled = true;
+    el.sonuc.style.display = "none";
+    el.durum.textContent = "Yükleniyor...";
+
+    const form = new FormData();
+    form.append("image", secilenDosya);
+
+    try {
+      const res = await fetch("https://api.imgbb.com/1/upload?key=" + API_KEY, {
+        method: "POST",
+        body: form,
+      });
+
+      let veri;
+      try {
+        veri = await res.json();
+      } catch (e) {
+        throw new Error("Sunucudan geçersiz cevap geldi (HTTP " + res.status + ")");
+      }
+
+      if (!res.ok || !veri.success) {
+        const mesaj = (veri.error && veri.error.message) || "HTTP " + res.status;
+        throw new Error(mesaj);
+      }
+
+      el.link.value = veri.data.url;
+      el.sonuc.style.display = "block";
+      el.durum.textContent = "Hazır! ✅";
+    } catch (err) {
+      console.error("Yükleme hatası:", err);
+      el.durum.textContent = "Hata: " + err.message;
+    } finally {
+      yukleniyor = false;
+      el.yukle.disabled = false;
+    }
+  }
 
   function dosyaSec(dosya) {
     if (!dosya || !dosya.type.startsWith("image/")) {
@@ -29,18 +72,22 @@ document.addEventListener("DOMContentLoaded", () => {
     secilenDosya = dosya;
     el.onizleme.src = URL.createObjectURL(dosya);
     el.onizleme.style.display = "inline-block";
-    el.yukle.disabled = false;
     el.sonuc.style.display = "none";
+    el.yukle.disabled = false;
     el.durum.textContent = dosya.name;
+
+    yukle(); // seçer seçmez otomatik yükle
   }
 
-  // Alan <label> ise tarayıcı dosya penceresini kendisi açar.
-  // Değilse (div vb.) elle açtırıyoruz.
+  // Alan <label> ise tarayıcı dosya penceresini kendisi açar
   if (el.alan.tagName !== "LABEL") {
     el.alan.addEventListener("click", () => el.dosya.click());
   }
 
-  el.dosya.addEventListener("change", () => dosyaSec(el.dosya.files[0]));
+  el.dosya.addEventListener("change", () => {
+    dosyaSec(el.dosya.files[0]);
+    el.dosya.value = ""; // aynı dosyayı tekrar seçebilmek için
+  });
 
   el.alan.addEventListener("dragover", (e) => {
     e.preventDefault();
@@ -59,8 +106,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (dosyalar && dosyalar[0]) dosyaSec(dosyalar[0]);
   });
 
-  el.yukle.addEventListener("click", async () => {
-    if (!secilenDosya) return;
+  el.yukle.addEventListener("click", yukle);
 
-    el.yukle.disabled = true;
-    el.durum.textContent = "Yükleniyor...";
+  el.kopyala.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(el.link.value);
+    } catch (e) {
+      el.link.select();
+      document.execCommand("copy");
+    }
+    el.kopyala.textContent = "Kopyalandı ✓";
+    setTimeout(() => (el.kopyala.textContent = "Kopyala"), 1500);
+  });
+});
