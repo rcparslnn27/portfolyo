@@ -1,94 +1,83 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const fileInput = document.getElementById('fileInput');
-    const dropZone = document.getElementById('dropZone');
-    const previewContainer = document.getElementById('previewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const linkOutput = document.getElementById('linkOutput');
-    const copyBtn = document.getElementById('copyLinkBtn');
+const API_KEY = "66084a2ed26206677c6eb72f52220236";
 
-    if (dropZone && fileInput) {
-        dropZone.addEventListener('click', () => fileInput.click());
+const alan = document.getElementById("alan");
+const dosyaInput = document.getElementById("dosya");
+const onizleme = document.getElementById("onizleme");
+const yukleBtn = document.getElementById("yukle");
+const durum = document.getElementById("durum");
+const sonuc = document.getElementById("sonuc");
+const linkInput = document.getElementById("link");
+const kopyalaBtn = document.getElementById("kopyala");
 
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                processImage(file);
-            }
-        });
+let secilenDosya = null;
 
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.style.borderColor = 'var(--primary)';
-        });
+function dosyaSec(dosya) {
+  if (!dosya || !dosya.type.startsWith("image/")) {
+    durum.textContent = "Lütfen bir görsel seç.";
+    return;
+  }
+  if (dosya.size > 32 * 1024 * 1024) {
+    durum.textContent = "Dosya 32 MB'den büyük olamaz.";
+    return;
+  }
+  secilenDosya = dosya;
+  onizleme.src = URL.createObjectURL(dosya);
+  onizleme.style.display = "inline-block";
+  yukleBtn.disabled = false;
+  sonuc.style.display = "none";
+  durum.textContent = dosya.name;
+}
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.style.borderColor = 'var(--border)';
-        });
+alan.addEventListener("click", () => dosyaInput.click());
+dosyaInput.addEventListener("change", () => dosyaSec(dosyaInput.files[0]));
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.style.borderColor = 'var(--border)';
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                processImage(file);
-            } else {
-                alert('Lütfen geçerli bir görsel dosyası yükleyin.');
-            }
-        });
-    }
+alan.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  alan.classList.add("uzerinde");
+});
+alan.addEventListener("dragleave", () => alan.classList.remove("uzerinde"));
+alan.addEventListener("drop", (e) => {
+  e.preventDefault();
+  alan.classList.remove("uzerinde");
+  dosyaSec(e.dataTransfer.files[0]);
+});
 
-    function processImage(file) {
-        linkOutput.value = "İşleniyor...";
-        previewContainer.style.display = 'block';
+// Ctrl+V ile yapıştırma
+document.addEventListener("paste", (e) => {
+  const dosya = [...e.clipboardData.files][0];
+  if (dosya) dosyaSec(dosya);
+});
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = function() {
-                // Görseli optimize etmek için canvas kullanıyoruz (boyutu küçültür)
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800;
-                const MAX_HEIGHT = 800;
-                let width = img.width;
-                let height = img.height;
+yukleBtn.addEventListener("click", async () => {
+  if (!secilenDosya) return;
 
-                if (width > height) {
-                    if (width > MAX_WIDTH) {
-                        height *= MAX_WIDTH / width;
-                        width = MAX_WIDTH;
-                    }
-                } else {
-                    if (height > MAX_HEIGHT) {
-                        width *= MAX_HEIGHT / height;
-                        height = MAX_HEIGHT;
-                    }
-                }
+  yukleBtn.disabled = true;
+  durum.textContent = "Yükleniyor...";
 
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
+  const form = new FormData();
+  form.append("image", secilenDosya);
 
-                // Temiz ve sıkıştırılmış veri bağlantısı oluşturur
-                const optimizedUrl = canvas.toDataURL('image/jpeg', 0.8);
-                imagePreview.src = optimizedUrl;
-                linkOutput.value = optimizedUrl;
-            }
-        };
-        reader.readAsDataURL(file);
-    }
+  try {
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
+      method: "POST",
+      body: form,
+    });
+    const veri = await res.json();
 
-    if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-            if (!linkOutput.value || linkOutput.value.includes('İşleniyor')) return;
-            navigator.clipboard.writeText(linkOutput.value).then(() => {
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = 'Kopyalandı!';
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                }, 1500);
-            });
-        });
-    }
+    if (!veri.success) throw new Error(veri.error?.message || "Yükleme başarısız");
+
+    linkInput.value = veri.data.url;
+    sonuc.style.display = "block";
+    durum.textContent = "Hazır! ✅";
+  } catch (err) {
+    durum.textContent = "Hata: " + err.message;
+  } finally {
+    yukleBtn.disabled = false;
+  }
+});
+
+kopyalaBtn.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(linkInput.value);
+  kopyalaBtn.textContent = "Kopyalandı ✓";
+  setTimeout(() => (kopyalaBtn.textContent = "Kopyala"), 1500);
 });
