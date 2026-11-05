@@ -1,83 +1,97 @@
-const API_KEY = "66084a2ed26206677c6eb72f52220236";
+document.addEventListener("DOMContentLoaded", () => {
+  const API_KEY = "66084a2ed26206677c6eb72f52220236";
 
-const alan = document.getElementById("alan");
-const dosyaInput = document.getElementById("dosya");
-const onizleme = document.getElementById("onizleme");
-const yukleBtn = document.getElementById("yukle");
-const durum = document.getElementById("durum");
-const sonuc = document.getElementById("sonuc");
-const linkInput = document.getElementById("link");
-const kopyalaBtn = document.getElementById("kopyala");
+  const ids = ["alan", "dosya", "onizleme", "yukle", "durum", "sonuc", "link", "kopyala"];
+  const el = {};
+  const eksik = [];
 
-let secilenDosya = null;
+  ids.forEach((id) => {
+    el[id] = document.getElementById(id);
+    if (!el[id]) eksik.push(id);
+  });
 
-function dosyaSec(dosya) {
-  if (!dosya || !dosya.type.startsWith("image/")) {
-    durum.textContent = "Lütfen bir görsel seç.";
+  if (eksik.length) {
+    console.error("HTML'de bu ID'ler eksik:", eksik.join(", "));
     return;
   }
-  if (dosya.size > 32 * 1024 * 1024) {
-    durum.textContent = "Dosya 32 MB'den büyük olamaz.";
-    return;
+
+  let secilenDosya = null;
+
+  function dosyaSec(dosya) {
+    if (!dosya || !dosya.type.startsWith("image/")) {
+      el.durum.textContent = "Lütfen bir görsel seç.";
+      return;
+    }
+    if (dosya.size > 32 * 1024 * 1024) {
+      el.durum.textContent = "Dosya 32 MB'den büyük olamaz.";
+      return;
+    }
+    secilenDosya = dosya;
+    el.onizleme.src = URL.createObjectURL(dosya);
+    el.onizleme.style.display = "inline-block";
+    el.yukle.disabled = false;
+    el.sonuc.style.display = "none";
+    el.durum.textContent = dosya.name;
   }
-  secilenDosya = dosya;
-  onizleme.src = URL.createObjectURL(dosya);
-  onizleme.style.display = "inline-block";
-  yukleBtn.disabled = false;
-  sonuc.style.display = "none";
-  durum.textContent = dosya.name;
-}
 
-alan.addEventListener("click", () => dosyaInput.click());
-dosyaInput.addEventListener("change", () => dosyaSec(dosyaInput.files[0]));
+  el.alan.addEventListener("click", () => el.dosya.click());
+  el.dosya.addEventListener("change", () => dosyaSec(el.dosya.files[0]));
 
-alan.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  alan.classList.add("uzerinde");
-});
-alan.addEventListener("dragleave", () => alan.classList.remove("uzerinde"));
-alan.addEventListener("drop", (e) => {
-  e.preventDefault();
-  alan.classList.remove("uzerinde");
-  dosyaSec(e.dataTransfer.files[0]);
-});
+  el.alan.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    el.alan.classList.add("uzerinde");
+  });
+  el.alan.addEventListener("dragleave", () => el.alan.classList.remove("uzerinde"));
+  el.alan.addEventListener("drop", (e) => {
+    e.preventDefault();
+    el.alan.classList.remove("uzerinde");
+    dosyaSec(e.dataTransfer.files[0]);
+  });
 
-// Ctrl+V ile yapıştırma
-document.addEventListener("paste", (e) => {
-  const dosya = [...e.clipboardData.files][0];
-  if (dosya) dosyaSec(dosya);
-});
+  // Ctrl+V ile yapıştırma
+  document.addEventListener("paste", (e) => {
+    const dosyalar = e.clipboardData ? e.clipboardData.files : [];
+    if (dosyalar && dosyalar[0]) dosyaSec(dosyalar[0]);
+  });
 
-yukleBtn.addEventListener("click", async () => {
-  if (!secilenDosya) return;
+  el.yukle.addEventListener("click", async () => {
+    if (!secilenDosya) return;
 
-  yukleBtn.disabled = true;
-  durum.textContent = "Yükleniyor...";
+    el.yukle.disabled = true;
+    el.durum.textContent = "Yükleniyor...";
 
-  const form = new FormData();
-  form.append("image", secilenDosya);
+    const form = new FormData();
+    form.append("image", secilenDosya);
 
-  try {
-    const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, {
-      method: "POST",
-      body: form,
-    });
-    const veri = await res.json();
+    try {
+      const res = await fetch("https://api.imgbb.com/1/upload?key=" + API_KEY, {
+        method: "POST",
+        body: form,
+      });
+      const veri = await res.json();
 
-    if (!veri.success) throw new Error(veri.error?.message || "Yükleme başarısız");
+      if (!veri.success) {
+        throw new Error((veri.error && veri.error.message) || "Yükleme başarısız");
+      }
 
-    linkInput.value = veri.data.url;
-    sonuc.style.display = "block";
-    durum.textContent = "Hazır! ✅";
-  } catch (err) {
-    durum.textContent = "Hata: " + err.message;
-  } finally {
-    yukleBtn.disabled = false;
-  }
-});
+      el.link.value = veri.data.url;
+      el.sonuc.style.display = "block";
+      el.durum.textContent = "Hazır! ✅";
+    } catch (err) {
+      el.durum.textContent = "Hata: " + err.message;
+    } finally {
+      el.yukle.disabled = false;
+    }
+  });
 
-kopyalaBtn.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(linkInput.value);
-  kopyalaBtn.textContent = "Kopyalandı ✓";
-  setTimeout(() => (kopyalaBtn.textContent = "Kopyala"), 1500);
+  el.kopyala.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(el.link.value);
+    } catch (e) {
+      el.link.select();
+      document.execCommand("copy");
+    }
+    el.kopyala.textContent = "Kopyalandı ✓";
+    setTimeout(() => (el.kopyala.textContent = "Kopyala"), 1500);
+  });
 });
