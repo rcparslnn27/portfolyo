@@ -7,6 +7,17 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Dark Mode uyumu için select ve option düzeltmeleri */
+    select option {
+      background-color: var(--card-bg, #ffffff);
+      color: var(--text-main, #333333);
+    }
+    .custom-select {
+      color: var(--text-main, #333333);
+      background-color: var(--bg-secondary, #ffffff);
+    }
+  </style>
 </head>
 <body>
 
@@ -25,55 +36,71 @@
     </div>
   </header>
 
-  <main style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 20px;">
-    <div class="kutu" style="width: 100%; max-width: 600px; background: var(--card-bg, #ffffff); border-radius: 16px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+  <main style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 20px 10px;">
+    <div class="kutu" style="width: 100%; max-width: 600px; background: var(--card-bg, #ffffff); border-radius: 16px; padding: 32px 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid var(--border-color, #eee);">
+      
       <div style="margin-bottom: 24px;">
-        <h1 style="font-size: 1.6rem; margin-bottom: 8px;">Döviz Hesaplama</h1>
+        <h1 style="font-size: 1.6rem; margin-bottom: 8px; color: var(--text-main, #111);">Döviz Hesaplama</h1>
         <p style="color: var(--muted, #666); font-size: 0.95rem;">Güncel kurlarla para birimlerini anında çevirin.</p>
       </div>
 
       <div style="margin-bottom: 20px;">
-        <label for="miktar" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Miktar</label>
-        <input type="number" id="miktar" value="100" min="0" step="any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem;">
+        <label for="miktar" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; color: var(--text-main, #333);">Miktar</label>
+        <input type="number" id="miktar" value="100" min="0" step="any" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color, #ddd); font-size: 1rem; background: var(--bg-secondary, #fff); color: var(--text-main, #111);">
       </div>
 
-      <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px;">
-        <div style="flex: 1;">
-          <label for="kaynak" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Çevrilecek</label>
-          <select id="kaynak" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; background: transparent;">
-            <option value="USD">USD - Amerikan Doları</option>
+      <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 140px;">
+          <label for="kaynak" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; color: var(--text-main, #333);">Çevrilecek</label>
+          <select id="kaynak" class="custom-select" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color, #ddd); font-size: 1rem;">
+            <option value="USD">USD - Dolar</option>
             <option value="EUR">EUR - Euro</option>
             <option value="TRY" selected>TRY - Türk Lirası</option>
-            <option value="GBP">GBP - İngiliz Sterlini</option>
+            <option value="GBP">GBP - Sterlin</option>
             <option value="CAD">CAD - Kanada Doları</option>
             <option value="CHF">CHF - İsviçre Frangı</option>
           </select>
         </div>
 
-        <button class="degistir-btn" id="degistir" title="Birimleri Değiştir" type="button" style="margin-top: 26px; background: transparent; border: 1px solid #ddd; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem;">⇄</button>
+        <button class="degistir-btn" id="degistir" title="Birimleri Değiştir" type="button" style="margin-top: 26px; background: var(--bg-secondary, #fff); border: 1px solid var(--border-color, #ddd); color: var(--text-main, #333); border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; flex-shrink: 0;">⇄</button>
 
-        <div style="flex: 1;">
-          <label for="hedef" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Sonuç</label>
-          <select id="hedef" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; background: transparent;">
-            <option value="USD" selected>USD - Amerikan Doları</option>
+        <div style="flex: 1; min-width: 140px;">
+          <label for="hedef" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 8px; color: var(--text-main, #333);">Sonuç</label>
+          <select id="hedef" class="custom-select" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color, #ddd); font-size: 1rem;">
+            <option value="USD" selected>USD - Dolar</option>
             <option value="EUR">EUR - Euro</option>
             <option value="TRY">TRY - Türk Lirası</option>
-            <option value="GBP">GBP - İngiliz Sterlini</option>
+            <option value="GBP">GBP - Sterlin</option>
             <option value="CAD">CAD - Kanada Doları</option>
             <option value="CHF">CHF - İsviçre Frangı</option>
           </select>
         </div>
       </div>
 
-      <div class="sonuc-kutusu" style="background: var(--bg-secondary, #f8f9fa); padding: 24px; border-radius: 12px; text-align: center; border: 1px solid #eee;">
+      <div class="sonuc-kutusu" style="background: var(--bg-secondary, #f8f9fa); padding: 24px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color, #eee);">
         <div class="sonuc-deger" id="sonucDeger" style="font-size: 1.8rem; font-weight: bold; color: var(--primary, #2563eb);">-</div>
-        <div class="kur-bilgisi" id="kurBilgisi" style="font-size: 0.85rem; color: #666; margin-top: 8px;"></div>
+        <div class="kur-bilgisi" id="kurBilgisi" style="font-size: 0.85rem; color: var(--muted, #666); margin-top: 8px;"></div>
       </div>
 
-      <div id="durum" style="text-align: center; font-size: 0.85rem; color: #888; margin-top: 16px;">Kurlar yükleniyor...</div>
+      <div id="durum" style="text-align: center; font-size: 0.85rem; color: var(--muted, #888); margin-top: 16px;">Kurlar yükleniyor...</div>
     </div>
   </main>
 
+  <footer class="footer">
+    <div class="container footer-content">
+        <a href="index.html" class="logo">
+            <span class="logo-icon">P</span>
+            Pratik<span>Cep</span>
+        </a>
+        <div style="display: flex; gap: 20px; font-size: 13px;">
+            <a href="iletisim.html" style="color: var(--muted); text-decoration: none;">İletişim</a>
+            <a href="gizlilik.html" style="color: var(--muted); text-decoration: none;">Gizlilik Politikası</a>
+        </div>
+        <p>© 2026 PratikCep. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
   <script src="zero.js"></script>
 </body>
 </html>
