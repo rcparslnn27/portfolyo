@@ -8,7 +8,7 @@
 
     <!-- Sosyal Medya Önizleme Etiketleri (Open Graph) -->
     <meta property="og:title" content="PratikCep - Günlük hayatın dijital yardımcısı">
-    <meta property="og:description" content="Hesaplamalar, metin araçları ve daha fazlası. Ücretsiz, hızlı ve kolay.">
+    <meta property="og:description" content="Hesaplamalar, metin araçları ve me dahası. Ücretsiz, hızlı ve kolay.">
     <meta property="og:image" content="https://hizliresim.com/ojbdwvkj">
     <meta property="og:url" content="https://arslanrecep.com.tr">
     <meta property="og:type" content="website">
@@ -16,8 +16,76 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Canlı Aurora Arka Plan Efekti (Pil Dostu & Mobil Uyumlu) */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            filter: blur(80px);
+            border-radius: 50%;
+            animation: floatAurora 14s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(108, 140, 255, 0.25);
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: rgba(236, 72, 153, 0.2);
+            animation-delay: -7s;
+        }
+
+        @keyframes floatAurora {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(35px, 25px) scale(1.08); }
+            100% { transform: translate(-25px, 40px) scale(0.95); }
+        }
+
+        /* Sayfa Elemanlarının Önde Kalması */
+        header, main, footer, .bg-symbols {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Akıcı Sayfa Geçiş Animasyonu */
+        body {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 <body>
+
+<!-- Canlı Arka Plan Efekti -->
+<div class="aurora-bg">
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+</div>
 
 <!-- Arka Plan Bilgi Vibe Efekti -->
 <div class="bg-symbols">
@@ -106,89 +174,6 @@
                 <h3>Yüzde Hesaplama</h3>
                 <p>Yüzde ve indirim hesaplamalarını kolayca yap.</p>
                 <span class="tool-link">Aracı kullan →</span>
-            </a>
+            </a>  
 
-            <a href="fotograf-link.html" class="tool-card" data-category="gunluk" data-name="fotoğraf linkleyici">
-                <div class="tool-icon pink">🖼️</div>
-                <h3>Fotoğraf Linkleyici</h3>
-                <p>Görselini yükle, anında bağlantı koduna dönüştür.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="yas-hesaplama.html" class="tool-card" data-category="hesaplama" data-name="yaş hesaplama">
-                <div class="tool-icon orange">◷</div>
-                <h3>Yaş Hesaplama</h3>
-                <p>Kaç yaşında olduğunu ve yaşını gün olarak öğren.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="zero.html" class="tool-card" data-category="hesaplama" data-name="döviz çevirici canlı kur dolar euro">
-                <div class="tool-icon green">💱</div>
-                <h3>Döviz Çevirici</h3>
-                <p>Canlı kurlar üzerinden anlık döviz hesaplaması yap.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="kelime-sayaci.html" class="tool-card" data-category="metin" data-name="kelime sayacı">
-                <div class="tool-icon blue">Aa</div>
-                <h3>Kelime Sayacı</h3>
-                <p>Metnindeki kelime ve karakter sayısını öğren.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="sifre-olusturucu.html" class="tool-card" data-category="gunluk" data-name="şifre oluşturucu">
-                <div class="tool-icon green">♧</div>
-                <h3>Şifre Oluşturucu</h3>
-                <p>Güçlü ve rastgele şifreler oluştur.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="qr-kod.html" class="tool-card" data-category="gunluk" data-name="qr kod oluşturucu">
-                <div class="tool-icon pink">▦</div>
-                <h3>QR Kod Oluşturucu</h3>
-                <p>Metinlerini ve bağlantılarını QR koda dönüştür.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-            <a href="kdv-hesaplama.html" class="tool-card" data-category="hesaplama" data-name="kdv hesaplama">
-                <div class="tool-icon yellow">₺</div>
-                <h3>KDV Hesaplama</h3>
-                <p>KDV dahil ve hariç fiyatları hesapla.</p>
-                <span class="tool-link">Aracı kullan →</span>
-            </a>
-
-        </div>
-
-        <p id="noResults" class="no-results" hidden>Aradığın araç bulunamadı.</p>
-    </section>
-
-    <section class="about-section" id="hakkimizda">
-        <div class="container about-content">
-            <span class="section-label">PRATİKCEP</span>
-            <h2>Teknoloji hayatını kolaylaştırsın.</h2>
-            <p>
-                PratikCep, günlük ihtiyaçlarını hızlı ve kolay
-                şekilde karşılayabilmen için oluşturulmuş ücretsiz
-                bir dijital araç platformudur.
-            </p>
-        </div>
-    </section>
-</main>
-
-<footer class="footer">
-    <div class="container footer-content">
-        <a href="index.html" class="logo">
-            <span class="logo-icon">P</span>
-            Pratik<span>Cep</span>
-        </a>
-        <div style="display: flex; gap: 20px; font-size: 13px;">
-            <a href="iletisim.html" style="color: var(--muted); text-decoration: none;">İletişim</a>
-            <a href="gizlilik.html" style="color: var(--muted); text-decoration: none;">Gizlilik Politikası</a>
-        </div>
-        <p>© 2026 PratikCep. Tüm hakları saklıdır.</p>
-    </div>
-</footer>
-
-<script src="script.js"></script>
-</body>
-</html>
+            <a href="
