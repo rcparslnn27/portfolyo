@@ -3,24 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PratikCep ile günlük işlerini kolaylaştır. Ücretsiz online hesaplama ve dijital araçlar.">
-    <title>PratikCep - Her Şey Elinin Altında</title>
+    <meta name="theme-color" content="#4169e1">
+    <meta name="robots" content="index, follow">
+
+    <title>PratikCep - Ücretsiz Online Hesaplama ve Dijital Araçlar</title>
+    <meta name="description" content="PratikCep ile günlük işlerini kolaylaştır. Yüzde, KDV, yaş hesaplama, döviz çevirici, QR kod, şifre oluşturucu ve daha fazlası. Ücretsiz, kayıt gerektirmez.">
+    <link rel="canonical" href="https://pratikcep.com.tr/">
+
+    <!-- Favicon (ayrı dosya gerektirmez) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%234169e1'/><text x='50' y='71' font-size='62' font-weight='800' text-anchor='middle' fill='white' font-family='Arial'>P</text></svg>">
 
     <!-- Sosyal Medya Önizleme Etiketleri (Open Graph) -->
-    <meta property="og:title" content="PratikCep - Günlük hayatın dijital yardımcısı">
+    <meta property="og:title" content="PratikCep - Ücretsiz Online Hesaplama ve Dijital Araçlar">
     <meta property="og:description" content="Hesaplamalar, metin araçları ve daha fazlası. Ücretsiz, hızlı ve kolay.">
     <meta property="og:image" content="https://hizliresim.com/ojbdwvkj">
-    <meta property="og:url" content="https://arslanrecep.com.tr">
+    <meta property="og:url" content="https://pratikcep.com.tr/">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PratikCep">
+    <meta property="og:locale" content="tr_TR">
+
+    <!-- Twitter / X Kartı -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PratikCep - Ücretsiz Online Hesaplama ve Dijital Araçlar">
+    <meta name="twitter:description" content="Hesaplamalar, metin araçları ve daha fazlası. Ücretsiz, hızlı ve kolay.">
+    <meta name="twitter:image" content="https://hizliresim.com/ojbdwvkj">
+
+    <!-- Yapılandırılmış Veri (Google için) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "PratikCep",
+        "url": "https://pratikcep.com.tr/",
+        "inLanguage": "tr",
+        "description": "Ücretsiz online hesaplama ve dijital araçlar platformu."
+    }
+    </script>
 
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- Arka Plan Bilgi Vibe Efekti -->
-<div class="bg-symbols">
+<div class="bg-symbols" aria-hidden="true">
     <span>E=mc²</span>
     <span>∫f(x)dx</span>
     <span>H₂O</span>
@@ -37,12 +65,12 @@
 
 <header class="header">
     <div class="container navbar">
-        <a href="#" class="logo">
+        <a href="index.html" class="logo" aria-label="PratikCep ana sayfa">
             <span class="logo-icon">P</span>
             Pratik<span>Cep</span>
         </a>
 
-        <nav class="nav-links">
+        <nav class="nav-links" aria-label="Ana menü">
             <a href="#anasayfa">Ana Sayfa</a>
             <a href="#araclar">Araçlar</a>
             <a href="#hakkimizda">Hakkımızda</a>
@@ -69,9 +97,9 @@
                 Ücretsiz, hızlı ve kolay.
             </p>
 
-            <div class="search-box">
-                <span>⌕</span>
-                <input type="text" id="searchInput" placeholder="Hangi araca ihtiyacın var?">
+            <div class="search-box" role="search">
+                <span aria-hidden="true">⌕</span>
+                <input type="text" id="searchInput" placeholder="Hangi araca ihtiyacın var?" aria-label="Araç ara">
                 <button id="searchButton">Ara</button>
             </div>
 
@@ -171,13 +199,18 @@
                 şekilde karşılayabilmen için oluşturulmuş ücretsiz
                 bir dijital araç platformudur.
             </p>
+            <p>
+                Yüzde ve KDV hesaplama, yaş hesaplama, döviz çevirme,
+                kelime sayma, güçlü şifre ve QR kod oluşturma gibi araçlara
+                üyelik veya kurulum gerekmeden, doğrudan tarayıcından ulaşabilirsin.
+            </p>
         </div>
     </section>
 </main>
 
 <footer class="footer">
     <div class="container footer-content">
-        <a href="index.html" class="logo">
+        <a href="index.html" class="logo" aria-label="PratikCep ana sayfa">
             <span class="logo-icon">P</span>
             Pratik<span>Cep</span>
         </a>
@@ -189,6 +222,6 @@
     </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>
