@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namaz Vakitleri - PratikCep</title>
+<meta name="description" content="Şehrini ara, bugünün namaz vakitlerini ve bir sonraki vakte kalan süreyi gör. Ücretsiz, kayıt gerektirmez.">
+<meta name="theme-color" content="#4169e1">
+<style>
+  :root {
+    --bg: #f4f6fd;
+    --surface: #ffffff;
+    --text: #1b2340;
+    --muted: #5d6786;
+    --line: #dde3f5;
+    --brand: #4169e1;
+    --brand-ink: #ffffff;
+    --soft: #e7ecff;
+    --float: rgba(65, 105, 225, 0.13);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1428;
+    --surface: #182040;
+    --text: #e9edff;
+    --muted: #9aa5cf;
+    --line: #2a3563;
+    --brand: #6f8fff;
+    --brand-ink: #0f1428;
+    --soft: #222c57;
+    --float: rgba(111, 143, 255, 0.14);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    position: relative;
+    overflow-x: hidden;
+  }
+  #bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  #bg span {
+    position: absolute;
+    color: var(--float);
+    font-family: Georgia, "Times New Roman", serif;
+    animation: drift linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes drift {
+    from { transform: translateY(0) rotate(0deg); }
+    to { transform: translateY(-110vh) rotate(25deg); }
+  }
+  @media (prefers-reduced-motion: reduce) { #bg span { animation: none; } }
+
+  header, main, footer { position: relative; z-index: 1; }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 18px 20px;
+  }
+  header a { color: var(--brand); font-weight: 700; text-decoration: none; font-size: 1.1rem; }
+  #theme {
+    background: var(--surface); color: var(--text); border: 1px solid var(--line);
+    border-radius: 10px; width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 8px 20px 48px; }
+  h1 { font-size: clamp(1.6rem, 5vw, 2.2rem); margin: 8px 0 4px; letter-spacing: -0.02em; }
+  .lead { color: var(--muted); margin: 0 0 20px; }
+
+  .search { display: flex; gap: 8px; flex-wrap: wrap; }
+  .search input {
+    flex: 1 1 200px; min-width: 0; padding: 12px 14px; font-size: 1rem;
+    border: 1px solid var(--line); border-radius: 12px;
+    background: var(--surface); color: var(--text);
+  }
+  button.btn {
+    padding: 12px 18px; font-size: 1rem; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--brand); background: var(--brand); color: var(--brand-ink); font-weight: 600;
+  }
+  button.btn.ghost { background: transparent; color: var(--brand); }
+  input:focus-visible, button:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+
+  #choices { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  #choices button {
+    padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--text); cursor: pointer; font-size: 0.95rem;
+  }
+  #status { margin: 14px 0 0; color: var(--muted); min-height: 1.4em; }
+  #status.error { color: #c0392b; }
+  :root[data-theme="dark"] #status.error { color: #ff8a7a; }
+
+  #next {
+    margin-top: 18px; background: var(--brand); color: var(--brand-ink);
+    border-radius: 20px; padding: 24px; display: none;
+  }
+  #next .place { margin: 0; opacity: 0.92; }
+  #next .label { margin: 10px 0 0; font-size: 1.05rem; }
+  #next .count {
+    font-size: clamp(2.6rem, 12vw, 4rem); font-weight: 700; line-height: 1.1;
+    letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+  }
+  #next .at { margin: 4px 0 0; opacity: 0.92; }
+
+  #times {
+    list-style: none; padding: 0; margin: 14px 0 0; display: none;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden;
+  }
+  #times li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 20px; border-top: 1px solid var(--line); font-size: 1.05rem;
+  }
+  #times li:first-child { border-top: 0; }
+  #times li.active { background: var(--soft); font-weight: 700; }
+  #times li.active .n::before { content: "● "; color: var(--brand); }
+  #times .t { font-variant-numeric: tabular-nums; font-weight: 600; }
+  #date { color: var(--muted); margin: 12px 2px 0; display: none; font-size: 0.95rem; }
+  .note { color: var(--muted); font-size: 0.85rem; margin: 14px 2px 0; display: none; }
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 0 20px 28px; }
+  footer a { color: var(--brand); }
+</style>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+
+<header>
+  <a href="index.html">PratikCep</a>
+  <button id="theme" type="button" aria-label="Temayı değiştir">☾</button>
+</header>
+
+<main>
+  <h1>Namaz vakitleri</h1>
+  <p class="lead">Şehrini ara, bugünün vakitlerini ve bir sonraki vakte kalan süreyi gör.</p>
+
+  <form class="search" id="form" autocomplete="off">
+    <input id="q" type="search" placeholder="Şehir adı yaz, örneğin Hatay" aria-label="Şehir adı" required>
+    <button class="btn" type="submit">Ara</button>
+    <button class="btn ghost" type="button" id="locate">Konumumu kullan</button>
+  </form>
+  <div id="choices"></div>
+  <p id="status" role="status" aria-live="polite"></p>
+
+  <section id="next" aria-label="Sıradaki vakit">
+    <p class="place" id="place"></p>
+    <p class="label" id="nextLabel"></p>
+    <div class="count" id="count"></div>
+    <p class="at" id="nextAt"></p>
+  </section>
+
+  <p id="date"></p>
+  <ul id="times" aria-label="Bugünün namaz vakitleri"></ul>
+  <p class="note" id="note">Vakitler Diyanet İşleri Başkanlığı hesaplama yöntemiyle koordinata göre hesaplanır. Resmî takvimle 1–2 dakika fark olabilir; ibadet için yerel ezan vakitlerini esas al.</p>
+</main>
+
+<footer>Veriler <a href="https://aladhan.com/prayer-times-api" target="_blank" rel="noopener">Aladhan</a> üzerinden alınır.</footer>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* Arka plan */
+  var symbols = ['E=mc²', 'π', '∑', 'H₂O', '∫f(x)dx', 'CO₂', 'sin(x)', '9.8m/s²', 'NaCl', '{ }', '[ ]', '</>'];
+  var bg = $('bg');
+  for (var i = 0; i < 18; i++) {
+    var s = document.createElement('span');
+    s.textContent = symbols[i % symbols.length];
+    s.style.left = (Math.random() * 96) + '%';
+    s.style.top = (20 + Math.random() * 90) + '%';
+    s.style.fontSize = (16 + Math.random() * 26) + 'px';
+    s.style.animationDuration = (28 + Math.random() * 30) + 's';
+    s.style.animationDelay = (-Math.random() * 40) + 's';
+    bg.appendChild(s);
+  }
+
+  /* Tema */
+  var root = document.documentElement;
+  var themeBtn = $('theme');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeBtn.textContent = t === 'dark' ? '☀' : '☾';
+    try { localStorage.setItem('pc-theme', t); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('pc-theme'); } catch (e) {}
+  setTheme(saved || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+  themeBtn.addEventListener('click', function () {
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  var statusEl = $('status');
+  function say(msg, isError) {
+    statusEl.textContent = msg || '';
+    statusEl.className = isError ? 'error' : '';
+  }
+  function getJSON(url) {
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    });
+  }
+
+  var NAMES = [
+    ['Fajr', 'İmsak'], ['Sunrise', 'Güneş'], ['Dhuhr', 'Öğle'],
+    ['Asr', 'İkindi'], ['Maghrib', 'Akşam'], ['Isha', 'Yatsı']
+  ];
+  var state = null;   /* { place, tz, mins: [6 sayı] } */
+  var timer = null;
+
+  function toMin(str) {
+    var p = String(str).split(' ')[0].split(':');
+    return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+  }
+  function hhmm(m) {
+    m = ((m % 1440) + 1440) % 1440;
+    return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2);
+  }
+  /* Şehrin saat dilimindeki şu an (gün içi saniye) */
+  function nowSec(tz) {
+    var parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'
+    }).formatToParts(new Date());
+    var v = {};
+    parts.forEach(function (p) { v[p.type] = parseInt(p.value, 10); });
+    return v.hour * 3600 + v.minute * 60 + v.second;
+  }
+
+  function tick() {
+    if (!state) return;
+    var now = nowSec(state.tz);
+    var idx = -1;
+    for (var i = 0; i < state.mins.length; i++) {
+      if (state.mins[i] * 60 > now) { idx = i; break; }
+    }
+    var nextSec, nextName, nextMin, activeIdx;
+    if (idx === -1) {                      /* Yatsı'dan sonra: yarının imsakı */
+      nextSec = state.mins[0] * 60 + 86400;
+      nextName = 'İmsak';
+      nextMin = state.mins[0];
+      activeIdx = 5;
+    } else {
+      nextSec = state.mins[idx] * 60;
+      nextName = NAMES[idx][1];
+      nextMin = state.mins[idx];
+      activeIdx = idx === 0 ? 5 : idx - 1;  /* imsaktan önce dünün yatsısı sürüyor */
+    }
+    var left = Math.max(0, nextSec - now);
+    var h = Math.floor(left / 3600), m = Math.floor((left % 3600) / 60), s = left % 60;
+    $('nextLabel').textContent = nextName + ' vaktine kalan süre';
+    $('count').textContent = ('0' + h).slice(-2) + ':' + ('0' + m).slice(-2) + ':' + ('0' + s).slice(-2);
+    $('nextAt').textContent = nextName + ': ' + hhmm(nextMin);
+    Array.prototype.forEach.call($('times').children, function (li, k) {
+      li.className = k === activeIdx ? 'active' : '';
+    });
+  }
+
+  function show(place, lat, lon) {
+    $('choices').textContent = '';
+    say('Vakitler alınıyor…');
+    var ts = Math.floor(Date.now() / 1000);
+    var url = 'https://api.aladhan.com/v1/timings/' + ts +
+      '?latitude=' + lat + '&longitude=' + lon + '&method=13';
+    getJSON(url).then(function (d) {
+      var t = d.data.timings;
+      var tz = d.data.meta.timezone;
+      var mins = NAMES.map(function (n) { return toMin(t[n[0]]); });
+      state = { place: place, tz: tz, mins: mins };
+
+      $('place').textContent = place;
+      var list = $('times');
+      list.textContent = '';
+      NAMES.forEach(function (n, k) {
+        var li = document.createElement('li');
+        var a = document.createElement('span'); a.className = 'n'; a.textContent = n[1];
+        var b = document.createElement('span'); b.className = 't'; b.textContent = hhmm(mins[k]);
+        li.appendChild(a); li.appendChild(b);
+        list.appendChild(li);
+      });
+      $('date').textContent = new Date().toLocaleDateString('tr-TR', {
+        timeZone: tz, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+      });
+      $('next').style.display = 'block';
+      list.style.display = 'block';
+      $('date').style.display = 'block';
+      $('note').style.display = 'block';
+      say('');
+      tick();
+      if (timer) clearInterval(timer);
+      timer = setInterval(tick, 1000);
+      try { localStorage.setItem('pc-namaz', JSON.stringify({ place: place, lat: lat, lon: lon })); } catch (e) {}
+    }).catch(function () {
+      say('Vakitler alınamadı. İnternet bağlantını kontrol edip tekrar dene.', true);
+    });
+  }
+
+  function label(r) {
+    var parts = [r.name];
+    if (r.admin1 && r.admin1 !== r.name) parts.push(r.admin1);
+    if (r.country) parts.push(r.country);
+    return parts.join(', ');
+  }
+
+  function search(q) {
+    $('choices').textContent = '';
+    say('Aranıyor…');
+    var url = 'https://geocoding-api.open-meteo.com/v1/search?count=5&language=tr&name=' + encodeURIComponent(q);
+    getJSON(url).then(function (d) {
+      var res = d.results || [];
+      if (!res.length) { say('“' + q + '” için sonuç bulunamadı. Yazımı kontrol edip tekrar dene.', true); return; }
+      if (res.length === 1) { show(label(res[0]), res[0].latitude, res[0].longitude); return; }
+      say('Birden fazla sonuç bulundu, birini seç:');
+      res.forEach(function (r) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label(r);
+        b.addEventListener('click', function () { show(label(r), r.latitude, r.longitude); });
+        $('choices').appendChild(b);
+      });
+    }).catch(function () {
+      say('Arama yapılamadı. İnternet bağlantını kontrol edip tekrar dene.', true);
+    });
+  }
+
+  $('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = $('q').value.trim();
+    if (q) search(q);
+  });
+
+  $('locate').addEventListener('click', function () {
+    if (!navigator.geolocation) { say('Tarayıcın konum özelliğini desteklemiyor. Şehir adı yazarak ara.', true); return; }
+    say('Konum alınıyor…');
+    navigator.geolocation.getCurrentPosition(function (p) {
+      show('Konumun', p.coords.latitude.toFixed(3), p.coords.longitude.toFixed(3));
+    }, function () {
+      say('Konum izni verilmedi. Şehir adı yazarak arayabilirsin.', true);
+    }, { timeout: 10000 });
+  });
+
+  /* Açılışta son şehir, yoksa İstanbul */
+  var last = null;
+  try { last = JSON.parse(localStorage.getItem('pc-namaz')); } catch (e) {}
+  if (last && last.place && last.lat && last.lon) show(last.place, last.lat, last.lon);
+  else show('İstanbul, Türkiye', 41.0138, 28.9497);
+})();
+</script>
+</body>
+</html>
