@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Yönetim - PratikCep</title>
+<style>
+  :root {
+    --bg: #f4f6fd; --surface: #ffffff; --text: #1b2340; --muted: #5d6786;
+    --line: #dde3f5; --brand: #4169e1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1428; --surface: #182040; --text: #e9edff; --muted: #9aa5cf;
+      --line: #2a3563; --brand: #6f8fff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.5;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 28px 20px 48px; }
+  h1 { font-size: clamp(1.5rem, 5vw, 2rem); margin: 0 0 4px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.1rem; margin: 28px 0 10px; }
+  .lead { color: var(--muted); margin: 0 0 8px; }
+  .grid { display: grid; gap: 10px; }
+  a.card {
+    display: block; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 14px 16px; color: var(--text); text-decoration: none;
+  }
+  a.card b { color: var(--brand); display: block; }
+  a.card span { color: var(--muted); font-size: 0.92rem; }
+  a.card:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+  .note { color: var(--muted); font-size: 0.88rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Yönetim paneli</h1>
+  <p class="lead">PratikCep istatistikleri ve yayın kontrolleri.</p>
+
+  <h2>İstatistikler</h2>
+  <div class="grid">
+    <a class="card" href="https://dash.cloudflare.com/?to=/:account/web-analytics" target="_blank" rel="noopener">
+      <b>Cloudflare Web Analytics</b>
+      <span>Ziyaretçi, sayfa görüntüleme, ülke ve cihaz bilgileri.</span>
+    </a>
+    <a class="card" href="https://search.google.com/search-console" target="_blank" rel="noopener">
+      <b>Google Search Console</b>
+      <span>Google'da hangi aramalarla bulunduğun ve sıralaman.</span>
+    </a>
+  </div>
+
+  <h2>Yayın</h2>
+  <div class="grid">
+    <a class="card" href="https://dash.cloudflare.com/?to=/:account/workers-and-pages" target="_blank" rel="noopener">
+      <b>Cloudflare Pages</b>
+      <span>Son dağıtımlar ve özel alan adı durumu.</span>
+    </a>
+    <a class="card" href="https://github.com/rcparslnn27/portfolyo" target="_blank" rel="noopener">
+      <b>GitHub</b>
+      <span>Site dosyaları. Burada yapılan her değişiklik otomatik yayına gider.</span>
+    </a>
+  </div>
+
+  <h2>Hızlı site kontrolü</h2>
+  <div class="grid">
+    <a class="card" href="/index.html"><b>Ana sayfa</b></a>
+    <a class="card" href="/hava-durumu.html"><b>Hava durumu</b></a>
+    <a class="card" href="/namaz-vakitleri.html"><b>Namaz vakitleri</b></a>
+    <a class="card" href="/sifre-olusturucu.html"><b>Şifre oluşturucu</b></a>
+    <a class="card" href="/kdv-hesaplama.html"><b>KDV hesaplama</b></a>
+  </div>
+
+  <p class="note">Bu sayfa Cloudflare Access ile korunur. Giriş kontrolü sayfanın içinde değil, sunucu tarafında yapılır.</p>
+</main>
+</body>
+</html>
