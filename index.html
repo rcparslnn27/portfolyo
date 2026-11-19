@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -10,13 +11,11 @@
     <meta name="description" content="PratikCep ile günlük işlerini kolaylaştır. Yüzde, KDV, yaş hesaplama, döviz çevirici, QR kod, şifre oluşturucu ve daha fazlası. Ücretsiz, kayıt gerektirmez.">
     <link rel="canonical" href="https://pratikcep.com.tr/">
 
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Sosyal Medya Önizleme Etiketleri (Open Graph) -->
     <meta property="og:title" content="PratikCep - Ücretsiz Online Hesaplama ve Dijital Araçlar">
     <meta property="og:description" content="Hesaplamalar, metin araçları ve daha fazlası. Ücretsiz, hızlı ve kolay.">
     <meta property="og:image" content="https://hizliresim.com/ojbdwvkj">
@@ -25,13 +24,11 @@
     <meta property="og:site_name" content="PratikCep">
     <meta property="og:locale" content="tr_TR">
 
-    <!-- Twitter / X Kartı -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PratikCep - Ücretsiz Online Hesaplama ve Dijital Araçlar">
     <meta name="twitter:description" content="Hesaplamalar, metin araçları ve daha fazlası. Ücretsiz, hızlı ve kolay.">
     <meta name="twitter:image" content="https://hizliresim.com/ojbdwvkj">
 
-    <!-- Yapılandırılmış Veri (Google için) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -47,10 +44,59 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Video arka plan stilleri -->
+    <style>
+        #bg-video {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .video-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 30, 0.48);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body {
+            position: relative;
+            isolation: isolate;
+        }
+
+        /* İçeriklerin video üzerinde kalması */
+        header, main, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Video yüklenemezse normal arka plan */
+        @media (prefers-reduced-motion: reduce) {
+            #bg-video {
+                display: none;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- Arka Plan Bilgi Vibe Efekti -->
+<!-- VİDEO ARKA PLAN -->
+<video autoplay muted loop playsinline preload="auto" id="bg-video"
+       aria-hidden="true">
+    <source src="background.mp4" type="video/mp4">
+</video>
+
+<!-- Videonun üzerine okunabilirlik katmanı -->
+<div class="video-overlay" aria-hidden="true"></div>
+
+<!-- Arka Plan Bilgi Efekti -->
 <div class="bg-symbols" aria-hidden="true">
     <span>E=mc²</span>
     <span>∫f(x)dx</span>
@@ -152,11 +198,12 @@
                 <p>Kaç yaşında olduğunu ve yaşını gün olarak öğren.</p>
                 <span class="tool-link">Aracı kullan →</span>
             </a>
+
             <a href="namaz-vakitleri.html" class="tool-card" data-category="gunluk" data-name="namaz vakitleri ezan imsak">
-    <div class="tool-icon green">☽</div>
-    <h3>Namaz Vakitleri</h3>
-    <p>Şehrine göre günlük vakitler ve sıradaki vakte kalan süre.</p>
-    <span class="tool-link">Aracı kullan →</span>
+                <div class="tool-icon green">☽</div>
+                <h3>Namaz Vakitleri</h3>
+                <p>Şehrine göre günlük vakitler ve sıradaki vakte kalan süre.</p>
+                <span class="tool-link">Aracı kullan →</span>
             </a>
 
             <a href="zero.html" class="tool-card" data-category="hesaplama" data-name="döviz çevirici canlı kur dolar euro">
@@ -179,11 +226,12 @@
                 <p>Güçlü ve rastgele şifreler oluştur.</p>
                 <span class="tool-link">Aracı kullan →</span>
             </a>
+
             <a href="hava-durumu.html" class="tool-card" data-category="gunluk" data-name="hava durumu">
-    <div class="tool-icon blue">☁</div>
-    <h3>Hava Durumu</h3>
-    <p>Şehrini ara, 5 günlük tahmini ve hava haritasını gör.</p>
-    <span class="tool-link">Aracı kullan →</span>
+                <div class="tool-icon blue">☁</div>
+                <h3>Hava Durumu</h3>
+                <p>Şehrini ara, 5 günlük tahmini ve hava haritasını gör.</p>
+                <span class="tool-link">Aracı kullan →</span>
             </a>
 
             <a href="qr-kod.html" class="tool-card" data-category="gunluk" data-name="qr kod oluşturucu">
@@ -229,18 +277,19 @@
             <span class="logo-icon">P</span>
             Pratik<span>Cep</span>
         </a>
+
         <div style="display: flex; gap: 20px; font-size: 13px;">
-          
-           
             <a href="iletisim.html" style="color: var(--muted); text-decoration: none;">İletişim</a>
             <a href="kullanim-sartlari.html" style="color: var(--muted); text-decoration: none;">Kullanım Şartları</a>
             <a href="gizlilik.html" style="color: var(--muted); text-decoration: none;">Gizlilik Politikası</a>
             <a href="hakkimizda.html" style="color: var(--muted); text-decoration: none;">Hakkımızda</a>
         </div>
+
         <p>© 2026 PratikCep. Tüm hakları saklıdır.</p>
     </div>
 </footer>
 
 <script src="script.js" defer></script>
+
 </body>
 </html>
